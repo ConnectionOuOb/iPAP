@@ -12,6 +12,6 @@ func (Seq *Request) IsValid() bool {
 	}
 
 	RE := regexp.MustCompile(fmt.Sprintf("^[ %s]+$", AminoAcid))
-	
+
 	return RE.MatchString(Seq.Sequence) && tool.InStringSlice(Seq.Method, Algorithms)
 }
