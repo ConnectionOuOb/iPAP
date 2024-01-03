@@ -4,6 +4,11 @@ const (
     AminoAcid = "ACDEFGHIKLMNPQRSTVWY"
 )
 
-type Sequ struct {
+var Algorithms = []string{
+    "SSE-PSSM",
+}
+
+type Request struct {
+    Method   string `json:"Method"`
     Sequence string `json:"Sequence"`
 }
