@@ -1,4 +1,4 @@
-package tool
+package config
 
 import (
     "os"
@@ -9,7 +9,7 @@ import (
 )
 
 func (config *Config) Load() (bool, string) {
-    cmd := argparse.NewParser(filepath.Base(os.Args[0]), "# Start by input a json config file")
+    cmd := argparse.NewParser(filepath.Base(os.Args[0]), "# Input a json config file")
     cfg := cmd.String("i", "config-file", &argparse.Options{
         Required: true,
         Help: "Path to json config file"})
