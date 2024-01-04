@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 	"encoding/json"
 	"iPAP/pkg/sequence"
@@ -19,15 +18,15 @@ func RouterSequence() func(http.ResponseWriter, *http.Request) {
 				return
 		
 			case "POST" :
-				var Seq sequence.Sequ
+				var SR sequence.Request
 
-				err := json.NewDecoder(r.Body).Decode(&Seq)
+				err := json.NewDecoder(r.Body).Decode(&SR)
 				if err != nil {
 					http.Error(w, "Failed to decode request", http.StatusBadRequest)
 					return
 				}
 
-				if !Seq.IsValid() {
+				if !SR.IsValid() {
 					http.Error(w, "Invalid sequence", http.StatusBadRequest)
 					return
 				}
