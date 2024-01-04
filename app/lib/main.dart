@@ -1,3 +1,4 @@
+import 'config.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -35,27 +36,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    bool isMobile = screenSize.width < 650;
+    bool isMobile = screenSize.width < 900;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/images/iPAP_logo.png',
-              fit: BoxFit.contain,
-              height: 32,
-            ),
-            const Text(
-              '2',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic,
-                color: Colors.purpleAccent,
-              ),
-            ),
-          ],
+        title: const Text(
+          ' 𝒊 𝑷 𝑨 𝑷',
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
       ),
       body: Center(
@@ -71,6 +62,27 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: Container(
+        height: isMobile ? 100 : 50,
+        color: Colors.black,
+        child: isMobile
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  footerTestStyle(footerText1),
+                  const SizedBox(height: 10),
+                  footerTestStyle(footerText2),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  footerTestStyle(footerText1),
+                  const SizedBox(width: 20),
+                  footerTestStyle(footerText2),
+                ],
+              )
       ),
     );
   }
