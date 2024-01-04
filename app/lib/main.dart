@@ -1,14 +1,8 @@
 import 'config.dart';
+import 'object.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-class IconText {
-  String name;
-  IconData? icon;
-
-  IconText(this.name, this.icon);
-}
 
 void main() {
   runApp(const IPAP());
@@ -40,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  int algoIndexSeq = 0;
   bool isMobile = false;
   TextEditingController searchSession = TextEditingController();
   List<IconText> tabNames = [
@@ -192,20 +187,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           Container(
             padding: EdgeInsets.symmetric(horizontal: isMobile ? 10.w : 15.w),
             child: textSelect(
-              "    Introducing our cutting-edge "
-              "Integrated Protein Analysis Platform, a comprehensive "
-              "solution designed to streamline and enhance protein research. "
-              "This platform seamlessly integrates sequence analysis tools "
+              "  This platform seamlessly integrates sequence analysis tools "
               "such as BLAST, Multiple Sequence Alignment (MSA), and Secondary "
               "Structure Prediction (SSP) to provide a robust foundation for "
               "understanding protein sequences. In addition to sequence analysis, "
               "our platform incorporates advanced structure analysis capabilities "
-              "using state-of-the-art technologies like AlphaFold2 and TM-Align. "
-              "AlphaFold2, known for its groundbreaking deep learning approach to "
-              "protein structure prediction, enables accurate and reliable three-dimensional "
-              "structure analysis. TM-Align further enhances structural insights by "
-              "facilitating the comparison and alignment of protein structures. "
-              "This integrated platform not only accelerates the research process but "
+              "using state-of-the-art technologies like AlphaFold2 and TM-Align.\n\n"
+              "  This integrated platform not only accelerates the research process but "
               "also ensures a holistic understanding of proteins, from their primary "
               "sequences to detailed structural characteristics. Researchers can leverage "
               "the power of diverse analytical tools within a unified environment, promoting "
@@ -222,26 +210,79 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Widget sequence() {
+    List<Algorithm> algorithms = [
+      Algorithm(
+        "BLAST",
+        "Basic local alignment search tool",
+        ["UniRef", "SCOP", "PDB"],
+      ),
+      Algorithm(
+        "SSE-PSSM",
+        "Secondary Structure Element-based Position Specific Scoring Matrix",
+        ["UniRef", "SCOP", "PDB"],
+      ),
+    ];
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(
+          Container(
             height: 15.h,
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [],
+            margin: EdgeInsets.symmetric(horizontal: isMobile ? 10.w : 15.w),
+            decoration: const BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.purple, width: 1)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    child: text(algorithms[algoIndexSeq].name, 15.sp, Colors.black),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: algorithms.map((algo) {
+                      int indexOfAlgo = algorithms.indexOf(algo);
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            algoIndexSeq = indexOfAlgo;
+                          });
+                        },
+                        child: Container(
+                          height: 8.h,
+                          decoration: BoxDecoration(
+                            color: algoIndexSeq == indexOfAlgo ? Colors.purple : Colors.white,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: text(algo.alias, 13.sp, algoIndexSeq == indexOfAlgo ? Colors.white : Colors.purple),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
             ),
           ),
-          Divider(
-            height: 0,
-            thickness: 1,
-            indent: isMobile ? 10.w : 15.w,
-            endIndent: isMobile ? 10.w : 15.w,
-            color: Colors.purple,
-          ),
           Container(
+            height: 40.h,
             padding: EdgeInsets.symmetric(horizontal: isMobile ? 10.w : 15.w),
-            child: const Text("123"),
+            child: Column(
+              children: [
+                
+              ],
+            ),
           ),
         ],
       ),
