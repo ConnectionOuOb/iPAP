@@ -2,11 +2,11 @@ import 'config.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class TabItem {
+class IconText {
   String name;
   IconData? icon;
 
-  TabItem(this.name, this.icon);
+  IconText(this.name, this.icon);
 }
 
 void main() {
@@ -41,11 +41,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   bool isMobile = false;
   TextEditingController searchSession = TextEditingController();
-  List<TabItem> tabNames = [
-    TabItem("Home", Icons.home),
-    TabItem("Sequence", Icons.arrow_downward),
-    TabItem("Structure", Icons.arrow_downward),
-    TabItem("Contact", Icons.contacts),
+  List<IconText> tabNames = [
+    IconText("Home", Icons.home),
+    IconText("Sequence", Icons.arrow_downward),
+    IconText("Structure", Icons.arrow_downward),
+    IconText("Contact", Icons.contacts),
   ];
   late TabController tabController;
 
@@ -114,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 decoration: const InputDecoration(
                   isDense: true,
                   border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.all(10.0),
                   hintText: 'Search session',
                 ),
                 controller: searchSession,
@@ -131,8 +132,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           children: [
             mainPage(),
             sequence(),
-            sequence(),
-            sequence(),
+            structure(),
+            contact(),
           ],
         ),
         bottomNavigationBar: Container(
@@ -187,7 +188,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             color: Colors.purple,
           ),
         ],
-        
       ),
     );
   }
@@ -198,16 +198,56 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         children: [
           SizedBox(
             height: 15.h,
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [],
+            ),
+          ),
+          Divider(
+            height: 0,
+            thickness: 1,
+            indent: isMobile ? 10.w : 15.w,
+            endIndent: isMobile ? 10.w : 15.w,
+            color: Colors.purple,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget structure() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 15.h,
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [],
+            ),
+          ),
+          Divider(
+            height: 0,
+            thickness: 1,
+            indent: isMobile ? 10.w : 15.w,
+            endIndent: isMobile ? 10.w : 15.w,
+            color: Colors.purple,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget contact() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 15.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                firstAlphaHL("integrated", 20.sp),
-                const SizedBox(width: 20),
-                firstAlphaHL("Protein", 20.sp),
-                const SizedBox(width: 20),
-                firstAlphaHL("Analysis", 20.sp),
-                const SizedBox(width: 20),
-                firstAlphaHL("Platform", 20.sp),
+                text("Contact Information", 20.sp, Colors.black),
               ],
             ),
           ),
@@ -218,6 +258,43 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             endIndent: isMobile ? 10.w : 15.w,
             color: Colors.purple,
           ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: isMobile ? 10.w : 15.w),
+            child: Column(
+              children: [
+                const SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Icon(Icons.mail, size: 20.sp),
+                    text("connection.bt12@nycu.edu.tw", 20.sp, Colors.black),
+                  ],
+                ),
+                const SizedBox(height: 70),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Icon(Icons.phone, size: 20.sp),
+                    text("+886 03-5712121 ext: 56923", 20.sp, Colors.black),
+                  ],
+                ),
+                const SizedBox(height: 70),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Icon(Icons.house, size: 20.sp),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        text("BioICT Building 401, No. 75,", 20.sp, Colors.black),
+                        text("Bo-Ai St., Hsinchu 300, Taiwan", 20.sp, Colors.black),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
