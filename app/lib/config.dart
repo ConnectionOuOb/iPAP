@@ -29,3 +29,14 @@ Widget text(String text, double size, Color color, {FontWeight weight = FontWeig
     ),
   );
 }
+
+Widget textSelect(String text, double size, Color color, {FontWeight weight = FontWeight.normal}) {
+  return SelectableText(
+    text,
+    style: TextStyle(
+      fontSize: size,
+      color: color,
+      fontWeight: weight,
+    ),
+  );
+}

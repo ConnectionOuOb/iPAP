@@ -1,5 +1,6 @@
 import 'config.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class IconText {
@@ -264,32 +265,35 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               children: [
                 const SizedBox(height: 50),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(Icons.mail, size: 20.sp),
-                    text("connection.bt12@nycu.edu.tw", 20.sp, Colors.black),
+                    Expanded(flex: 1, child: Icon(Icons.mail, size: 20.sp)),
+                    Expanded(
+                      flex: 3,
+                      child: InkWell(
+                        child: text("connection.bt12@nycu.edu.tw", 20.sp, Colors.black),
+                        onTap: () async => await launchUrl(Uri.parse('mailto:connection.bt12@nycu.edu.tw')),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 70),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(Icons.phone, size: 20.sp),
-                    text("+886 03-5712121 ext: 56923", 20.sp, Colors.black),
+                    Expanded(flex: 1, child: Icon(Icons.phone, size: 20.sp)),
+                    Expanded(
+                      flex: 3,
+                      child: textSelect("+886 03-5712121 ext: 56923", 20.sp, Colors.black),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 70),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(Icons.house, size: 20.sp),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        text("BioICT Building 401, No. 75,", 20.sp, Colors.black),
-                        text("Bo-Ai St., Hsinchu 300, Taiwan", 20.sp, Colors.black),
-                      ],
-                    )
+                    Expanded(flex: 1, child: Icon(Icons.house, size: 20.sp)),
+                    Expanded(
+                      flex: 3,
+                      child: textSelect("BioICT Building 401, No. 75,\nBo-Ai St., Hsinchu 300, Taiwan", 20.sp, Colors.black),
+                    ),
                   ],
                 ),
               ],
