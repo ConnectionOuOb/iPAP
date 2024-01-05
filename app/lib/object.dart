@@ -10,7 +10,15 @@ class IconText {
 class Algorithm {
   String alias;
   String name;
-  List<String> databases;
+  List<SelectItem> engines;
+  List<SelectItem> databases;
 
-  Algorithm(this.alias, this.name, this.databases);
+  Algorithm(this.alias, this.name, this.engines, this.databases);
+}
+
+class SelectItem {
+  bool selected;
+  String name;
+
+  SelectItem(this.selected, this.name);
 }

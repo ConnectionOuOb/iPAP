@@ -35,17 +35,47 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  int algoIndexSeq = 0;
-  int inputMethodSeq = 0;
+  int indexSeqAlgo = 0;
+  int indexSeqInputMethod = 0;
   bool isMobile = false;
   String fileNameSeq = "Please select file";
   TextEditingController searchSession = TextEditingController();
+
   List<IconText> tabNames = [
     IconText("Home", Icons.home),
     IconText("Sequence", Icons.arrow_downward),
     IconText("Structure", Icons.arrow_downward),
     IconText("Contact", Icons.contacts),
   ];
+  List<Algorithm> algorithms = [
+    Algorithm(
+      "BLAST",
+      "Basic Local Alignment Search Tool",
+      [
+        SelectItem(true, "111"),
+        SelectItem(false, "222"),
+      ],
+      [
+        SelectItem(true, "333"),
+        SelectItem(false, "444"),
+        SelectItem(false, "555"),
+      ],
+    ),
+    Algorithm(
+      "SSE-PSSM",
+      "Secondary Structure Element-based Position Specific Scoring Matrix",
+      [
+        SelectItem(true, "666"),
+        SelectItem(false, "777"),
+      ],
+      [
+        SelectItem(true, "888"),
+        SelectItem(false, "999"),
+        SelectItem(false, "000"),
+      ],
+    ),
+  ];
+
   late TabController tabController;
 
   @override
@@ -221,18 +251,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget sequence() {
     TextEditingController querySeq = TextEditingController();
     TextEditingController queryChain = TextEditingController();
-    List<Algorithm> algorithms = [
-      Algorithm(
-        "BLAST",
-        "Basic Local Alignment Search Tool",
-        ["UniRef", "SCOP", "PDB"],
-      ),
-      Algorithm(
-        "SSE-PSSM",
-        "Secondary Structure Element-based Position Specific Scoring Matrix",
-        ["UniRef", "SCOP", "PDB"],
-      ),
-    ];
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -249,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   flex: 2,
                   child: Container(
                     alignment: Alignment.bottomCenter,
-                    child: text(algorithms[algoIndexSeq].name, 15.sp, Colors.black),
+                    child: text(algorithms[indexSeqAlgo].name, 15.sp, Colors.black),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -263,13 +281,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            algoIndexSeq = indexOfAlgo;
+                            indexSeqAlgo = indexOfAlgo;
                           });
                         },
                         child: Container(
                           height: 8.h,
                           decoration: BoxDecoration(
-                            color: algoIndexSeq == indexOfAlgo ? Colors.purple : Colors.white,
+                            color: indexSeqAlgo == indexOfAlgo ? Colors.purple : Colors.white,
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(5),
                               topRight: Radius.circular(5),
@@ -277,7 +295,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
                           alignment: Alignment.center,
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: text(algo.alias, 13.sp, algoIndexSeq == indexOfAlgo ? Colors.white : Colors.purple),
+                          child: text(algo.alias, 13.sp, indexSeqAlgo == indexOfAlgo ? Colors.white : Colors.purple),
                         ),
                       );
                     }).toList(),
@@ -317,16 +335,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             Row(
                               children: [
                                 Expanded(
-                                  flex: 1,
+                                  flex: isMobile ? 2 : 1,
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        inputMethodSeq = 0;
+                                        indexSeqInputMethod = 0;
                                       });
                                     },
                                     child: Row(
                                       children: [
-                                        inputMethodSeq == 0 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        indexSeqInputMethod == 0 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
                                         const SizedBox(width: 5),
                                         text("Sequence", 13.sp, Colors.black),
                                       ],
@@ -359,12 +377,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        inputMethodSeq = 1;
+                                        indexSeqInputMethod = 1;
                                       });
                                     },
                                     child: Row(
                                       children: [
-                                        inputMethodSeq == 1 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        indexSeqInputMethod == 1 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
                                         const SizedBox(width: 5),
                                         text("Upload file", 13.sp, Colors.black),
                                       ],
@@ -376,7 +394,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   child: Row(
                                     children: [
                                       Expanded(
-                                        flex: 2,
+                                        flex: isMobile ? 1 : 2,
                                         child: Container(
                                           alignment: Alignment.centerLeft,
                                           child: TextButton.icon(
@@ -415,7 +433,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     ],
                                   ),
                                 ),
-                                const Expanded(flex: 2, child: SizedBox()),
+                                Expanded(flex: isMobile ? 0 : 2, child: const SizedBox()),
                               ],
                             ),
                           ],
@@ -424,6 +442,113 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.purple, width: 1),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.purple,
+                        height: 6.h,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(),
+                            text("Refinement engine", 12.5.sp, Colors.white),
+                            text("Step (2/3)  ", 12.5.sp, Colors.white),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        height: 10.h,
+                        child: Row(
+                          children: algorithms[indexSeqAlgo].engines.map((e) {
+                            return Expanded(child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    for (var engine in algorithms[indexSeqAlgo].engines) {
+                                      engine.selected = false;
+                                    }
+                                    e.selected = true;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    e.selected ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                    const SizedBox(width: 5),
+                                    text(e.name, 13.sp, Colors.black),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.purple, width: 1),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.purple,
+                        height: 6.h,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(),
+                            text("Target database", 12.5.sp, Colors.white),
+                            text("Step (3/3)  ", 12.5.sp, Colors.white),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        constraints: BoxConstraints(minHeight: 1.h, maxHeight: 30.h),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: algorithms[indexSeqAlgo].databases.length,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        for (var db in algorithms[indexSeqAlgo].databases) {
+                                          db.selected = false;
+                                        }
+                                        algorithms[indexSeqAlgo].databases[index].selected = true;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        algorithms[indexSeqAlgo].databases[index].selected ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        const SizedBox(width: 5),
+                                        text(algorithms[indexSeqAlgo].databases[index].name, 13.sp, Colors.black),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
               ],
             ),
           ),

@@ -22,6 +22,7 @@ Widget footerTestStyle(String input) {
 Widget text(String text, double size, Color color, {FontWeight weight = FontWeight.normal}) {
   return Text(
     text,
+    overflow: TextOverflow.fade,
     style: TextStyle(
       fontSize: size,
       color: color,
