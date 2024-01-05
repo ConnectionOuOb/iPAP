@@ -35,10 +35,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  int indexSeqAlgo = 0;
-  int indexSeqInputMethod = 0;
   bool isMobile = false;
-  String fileNameSeq = "Please select file";
+  int indexSequenceAlgo = 0;
+  int indexSequenceInputMethod = 0;
+  int indexStructureAlgo = 0;
+  int indexStructureInputMethod = 0;
+  String sequenceFileName = "Please select file";
+  String structureFileName = "Please select file";
   TextEditingController searchSession = TextEditingController();
 
   List<IconText> tabNames = [
@@ -47,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     IconText("Structure", Icons.arrow_downward),
     IconText("Contact", Icons.contacts),
   ];
-  List<Algorithm> algorithms = [
+  List<Algorithm> algorithmSequences = [
     Algorithm(
       "BLAST",
       "Basic Local Alignment Search Tool",
@@ -64,6 +67,34 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     Algorithm(
       "SSE-PSSM",
       "Secondary Structure Element-based Position Specific Scoring Matrix",
+      [
+        SelectItem(true, "666"),
+        SelectItem(false, "777"),
+      ],
+      [
+        SelectItem(true, "888"),
+        SelectItem(false, "999"),
+        SelectItem(false, "000"),
+      ],
+    ),
+  ];
+  List<Algorithm> algorithmStructures = [
+    Algorithm(
+      "AlphaFold2",
+      "Alphabet Google DeepMind AlphaFold2",
+      [
+        SelectItem(true, "111"),
+        SelectItem(false, "222"),
+      ],
+      [
+        SelectItem(true, "333"),
+        SelectItem(false, "444"),
+        SelectItem(false, "555"),
+      ],
+    ),
+    Algorithm(
+      "TM-align",
+      "A protein structure alignment algorithm based on the TM-score",
       [
         SelectItem(true, "666"),
         SelectItem(false, "777"),
@@ -267,7 +298,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   flex: 2,
                   child: Container(
                     alignment: Alignment.bottomCenter,
-                    child: text(algorithms[indexSeqAlgo].name, 15.sp, Colors.black),
+                    child: text(algorithmSequences[indexSequenceAlgo].name, 15.sp, Colors.black),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -276,18 +307,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: algorithms.map((algo) {
-                      int indexOfAlgo = algorithms.indexOf(algo);
+                    children: algorithmSequences.map((algo) {
+                      int indexOfAlgo = algorithmSequences.indexOf(algo);
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            indexSeqAlgo = indexOfAlgo;
+                            indexSequenceAlgo = indexOfAlgo;
                           });
                         },
                         child: Container(
                           height: 8.h,
                           decoration: BoxDecoration(
-                            color: indexSeqAlgo == indexOfAlgo ? Colors.purple : Colors.white,
+                            color: indexSequenceAlgo == indexOfAlgo ? Colors.purple : Colors.white,
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(5),
                               topRight: Radius.circular(5),
@@ -295,7 +326,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
                           alignment: Alignment.center,
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: text(algo.alias, 13.sp, indexSeqAlgo == indexOfAlgo ? Colors.white : Colors.purple),
+                          child: text(algo.alias, 13.sp, indexSequenceAlgo == indexOfAlgo ? Colors.white : Colors.purple),
                         ),
                       );
                     }).toList(),
@@ -339,12 +370,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        indexSeqInputMethod = 0;
+                                        indexSequenceInputMethod = 0;
                                       });
                                     },
                                     child: Row(
                                       children: [
-                                        indexSeqInputMethod == 0 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        indexSequenceInputMethod == 0 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
                                         const SizedBox(width: 5),
                                         text("Sequence", 13.sp, Colors.black),
                                       ],
@@ -377,12 +408,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        indexSeqInputMethod = 1;
+                                        indexSequenceInputMethod = 1;
                                       });
                                     },
                                     child: Row(
                                       children: [
-                                        indexSeqInputMethod == 1 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        indexSequenceInputMethod == 1 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
                                         const SizedBox(width: 5),
                                         text("Upload file", 13.sp, Colors.black),
                                       ],
@@ -398,11 +429,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         child: Container(
                                           alignment: Alignment.centerLeft,
                                           child: TextButton.icon(
-                                            label: text(fileNameSeq, 12.sp, Colors.black),
+                                            label: text(sequenceFileName, 12.sp, Colors.black),
                                             onPressed: () async {
                                               await uploadFile().then((value) {
                                                 setState(() {
-                                                  fileNameSeq = value;
+                                                  sequenceFileName = value;
                                                 });
                                               });
                                             },
@@ -466,11 +497,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(20),
                         height: 10.h,
                         child: Row(
-                          children: algorithms[indexSeqAlgo].engines.map((e) {
+                          children: algorithmSequences[indexSequenceAlgo].engines.map((e) {
                             return Expanded(child: GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    for (var engine in algorithms[indexSeqAlgo].engines) {
+                                    for (var engine in algorithmSequences[indexSequenceAlgo].engines) {
                                       engine.selected = false;
                                     }
                                     e.selected = true;
@@ -516,7 +547,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         constraints: BoxConstraints(minHeight: 1.h, maxHeight: 30.h),
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: algorithms[indexSeqAlgo].databases.length,
+                          itemCount: algorithmSequences[indexSequenceAlgo].databases.length,
                           itemBuilder: (context, index) {
                             return Row(
                               children: [
@@ -525,17 +556,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        for (var db in algorithms[indexSeqAlgo].databases) {
+                                        for (var db in algorithmSequences[indexSequenceAlgo].databases) {
                                           db.selected = false;
                                         }
-                                        algorithms[indexSeqAlgo].databases[index].selected = true;
+                                        algorithmSequences[indexSequenceAlgo].databases[index].selected = true;
                                       });
                                     },
                                     child: Row(
                                       children: [
-                                        algorithms[indexSeqAlgo].databases[index].selected ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        algorithmSequences[indexSequenceAlgo].databases[index].selected ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
                                         const SizedBox(width: 5),
-                                        text(algorithms[indexSeqAlgo].databases[index].name, 13.sp, Colors.black),
+                                        text(algorithmSequences[indexSequenceAlgo].databases[index].name, 13.sp, Colors.black),
                                       ],
                                     ),
                                   ),
@@ -558,26 +589,308 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Widget structure() {
+    TextEditingController queryStructure = TextEditingController();
+    TextEditingController queryChain = TextEditingController();
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(
+          Container(
             height: 15.h,
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [],
+            margin: EdgeInsets.symmetric(horizontal: isMobile ? 10.w : 15.w),
+            decoration: const BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.purple, width: 1)),
             ),
-          ),
-          Divider(
-            height: 0,
-            thickness: 1,
-            indent: isMobile ? 10.w : 15.w,
-            endIndent: isMobile ? 10.w : 15.w,
-            color: Colors.purple,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    child: text(algorithmStructures[indexStructureAlgo].name, 15.sp, Colors.black),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: algorithmStructures.map((algo) {
+                      int indexOfAlgo = algorithmStructures.indexOf(algo);
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            indexStructureAlgo = indexOfAlgo;
+                          });
+                        },
+                        child: Container(
+                          height: 8.h,
+                          decoration: BoxDecoration(
+                            color: indexStructureAlgo == indexOfAlgo ? Colors.purple : Colors.white,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: text(algo.alias, 13.sp, indexStructureAlgo == indexOfAlgo ? Colors.white : Colors.purple),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: isMobile ? 10.w : 15.w),
-            child: const Text("123"),
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.purple, width: 1),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.purple,
+                        height: 6.h,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(),
+                            text("Query", 12.5.sp, Colors.white),
+                            text("Step (1/3)  ", 12.5.sp, Colors.white),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: isMobile ? 2 : 1,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        indexStructureInputMethod = 0;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        indexStructureInputMethod == 0 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        const SizedBox(width: 5),
+                                        text("Sequence", 13.sp, Colors.black),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: TextField(
+                                      controller: queryStructure,
+                                      minLines: 1,
+                                      maxLines: 1000,
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        contentPadding: EdgeInsets.all(10.0),
+                                        hintText: 'Enter protein sequence',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        indexStructureInputMethod = 1;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        indexStructureInputMethod == 1 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        const SizedBox(width: 5),
+                                        text("Upload file", 13.sp, Colors.black),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: isMobile ? 1 : 2,
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: TextButton.icon(
+                                            label: text(structureFileName, 12.sp, Colors.black),
+                                            onPressed: () async {
+                                              await uploadFile().then((value) {
+                                                setState(() {
+                                                  structureFileName = value;
+                                                });
+                                              });
+                                            },
+                                            icon: const Icon(Icons.upload_file),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            text("Chain :", 12.sp, Colors.black),
+                                            const SizedBox(width: 5),
+                                            Expanded(
+                                              flex: 1,
+                                              child: TextField(
+                                                controller: queryChain,
+                                                decoration: const InputDecoration(
+                                                  border: OutlineInputBorder(),
+                                                  contentPadding: EdgeInsets.all(10.0),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(flex: isMobile ? 0 : 2, child: const SizedBox()),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.purple, width: 1),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.purple,
+                        height: 6.h,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(),
+                            text("Refinement engine", 12.5.sp, Colors.white),
+                            text("Step (2/3)  ", 12.5.sp, Colors.white),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        height: 10.h,
+                        child: Row(
+                          children: algorithmStructures[indexStructureAlgo].engines.map((e) {
+                            return Expanded(child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  for (var engine in algorithmStructures[indexStructureAlgo].engines) {
+                                    engine.selected = false;
+                                  }
+                                  e.selected = true;
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  e.selected ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                  const SizedBox(width: 5),
+                                  text(e.name, 13.sp, Colors.black),
+                                ],
+                              ),
+                            ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.purple, width: 1),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.purple,
+                        height: 6.h,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(),
+                            text("Target database", 12.5.sp, Colors.white),
+                            text("Step (3/3)  ", 12.5.sp, Colors.white),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        constraints: BoxConstraints(minHeight: 1.h, maxHeight: 30.h),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: algorithmStructures[indexStructureAlgo].databases.length,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        for (var db in algorithmStructures[indexStructureAlgo].databases) {
+                                          db.selected = false;
+                                        }
+                                        algorithmStructures[indexStructureAlgo].databases[index].selected = true;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        algorithmStructures[indexStructureAlgo].databases[index].selected ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        const SizedBox(width: 5),
+                                        text(algorithmStructures[indexStructureAlgo].databases[index].name, 13.sp, Colors.black),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
           ),
         ],
       ),
