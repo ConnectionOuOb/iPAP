@@ -36,6 +36,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   bool isMobile = false;
+  bool sequenceOpenAdvanced = false;
+  bool structureOpenAdvanced = false;
   int indexSequenceAlgo = 0;
   int indexSequenceInputMethod = 0;
   int indexStructureAlgo = 0;
@@ -83,26 +85,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       "AlphaFold2",
       "Alphabet Google DeepMind AlphaFold2",
       [
-        SelectItem(true, "111"),
-        SelectItem(false, "222"),
+        SelectItem(true, "aaa"),
+        SelectItem(false, "bbb"),
       ],
       [
-        SelectItem(true, "333"),
-        SelectItem(false, "444"),
-        SelectItem(false, "555"),
+        SelectItem(true, "ccc"),
+        SelectItem(false, "ddd"),
+        SelectItem(false, "eee"),
       ],
     ),
     Algorithm(
       "TM-align",
       "A protein structure alignment algorithm based on the TM-score",
       [
-        SelectItem(true, "666"),
-        SelectItem(false, "777"),
+        SelectItem(true, "fff"),
+        SelectItem(false, "ggg"),
       ],
       [
-        SelectItem(true, "888"),
-        SelectItem(false, "999"),
-        SelectItem(false, "000"),
+        SelectItem(true, "hhh"),
+        SelectItem(false, "iii"),
+        SelectItem(false, "jjj"),
       ],
     ),
   ];
@@ -115,7 +117,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       length: tabNames.length,
       vsync: this,
       animationDuration: Duration.zero,
-      initialIndex: 1,
     );
 
     super.initState();
@@ -256,23 +257,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           const SizedBox(height: 30),
           Container(
             padding: EdgeInsets.symmetric(horizontal: isMobile ? 10.w : 15.w),
-            child: textSelect(
-              "  This platform seamlessly integrates sequence analysis tools "
-              "such as BLAST, Multiple Sequence Alignment (MSA), and Secondary "
-              "Structure Prediction (SSP) to provide a robust foundation for "
-              "understanding protein sequences. In addition to sequence analysis, "
-              "our platform incorporates advanced structure analysis capabilities "
-              "using state-of-the-art technologies like AlphaFold2 and TM-Align.\n\n"
-              "  This integrated platform not only accelerates the research process but "
-              "also ensures a holistic understanding of proteins, from their primary "
-              "sequences to detailed structural characteristics. Researchers can leverage "
-              "the power of diverse analytical tools within a unified environment, promoting "
-              "efficiency and precision in protein analysis. Stay at the forefront of protein "
-              "research with our Integrated Protein Analysis Platform, where cutting-edge "
-              "technologies converge for a comprehensive and seamless analysis experience.",
-              14.sp,
-              Colors.black,
-            ),
+            child: textSelect(statement, 14.sp, Colors.black),
           ),
         ],
       ),
@@ -351,7 +336,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         color: Colors.purple,
                         height: 6.h,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(),
                             text("Query", 12.5.sp, Colors.white),
@@ -431,9 +416,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           child: TextButton.icon(
                                             label: text(sequenceFileName, 12.sp, Colors.black),
                                             onPressed: () async {
-                                              await uploadFile().then((value) {
+                                              await uploadFileSequence().then((value) {
                                                 setState(() {
-                                                  sequenceFileName = value;
+                                                  if (value.isNotEmpty) {
+                                                    sequenceFileName = value;
+                                                  } else {
+                                                    sequenceFileName = "Please select file";
+                                                  }
                                                 });
                                               });
                                             },
@@ -485,7 +474,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         color: Colors.purple,
                         height: 6.h,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(),
                             text("Refinement engine", 12.5.sp, Colors.white),
@@ -498,7 +487,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         height: 10.h,
                         child: Row(
                           children: algorithmSequences[indexSequenceAlgo].engines.map((e) {
-                            return Expanded(child: GestureDetector(
+                            return Expanded(
+                              child: GestureDetector(
                                 onTap: () {
                                   setState(() {
                                     for (var engine in algorithmSequences[indexSequenceAlgo].engines) {
@@ -534,7 +524,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         color: Colors.purple,
                         height: 6.h,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(),
                             text("Target database", 12.5.sp, Colors.white),
@@ -577,6 +567,72 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurpleAccent,
+                    border: Border.all(color: Colors.deepPurpleAccent, width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: TextButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        sequenceOpenAdvanced = !sequenceOpenAdvanced;
+                      });
+                    },
+                    icon: Icon(Icons.settings, color: Colors.white, size: 15.sp),
+                    label: text(sequenceOpenAdvanced ? "Hide advanced options" : "Show advanced options", 13.sp, Colors.white),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                if (sequenceOpenAdvanced)
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: Colors.purple, width: 1),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          color: Colors.purple,
+                          height: 6.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              text("Advance option", 13.sp, Colors.white),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          constraints: BoxConstraints(minHeight: 1.h, maxHeight: 30.h),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: algorithmSequences[indexSequenceAlgo].databases.length,
+                            itemBuilder: (context, index) {
+                              return const Row();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.purple, width: 2),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: TextButton.icon(
+                    onPressed: () {
+                      setState(() {});
+                    },
+                    icon: Icon(Icons.file_upload_outlined, color: Colors.black, size: 15.sp),
+                    label: text("Submit", 15.sp, Colors.black),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -660,7 +716,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         color: Colors.purple,
                         height: 6.h,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(),
                             text("Query", 12.5.sp, Colors.white),
@@ -740,9 +796,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           child: TextButton.icon(
                                             label: text(structureFileName, 12.sp, Colors.black),
                                             onPressed: () async {
-                                              await uploadFile().then((value) {
+                                              await uploadFileStructure().then((value) {
                                                 setState(() {
-                                                  structureFileName = value;
+                                                  if (value.isNotEmpty) {
+                                                    structureFileName = value;
+                                                  } else {
+                                                    structureFileName = "Please select file";
+                                                  }
                                                 });
                                               });
                                             },
@@ -794,7 +854,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         color: Colors.purple,
                         height: 6.h,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(),
                             text("Refinement engine", 12.5.sp, Colors.white),
@@ -807,23 +867,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         height: 10.h,
                         child: Row(
                           children: algorithmStructures[indexStructureAlgo].engines.map((e) {
-                            return Expanded(child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  for (var engine in algorithmStructures[indexStructureAlgo].engines) {
-                                    engine.selected = false;
-                                  }
-                                  e.selected = true;
-                                });
-                              },
-                              child: Row(
-                                children: [
-                                  e.selected ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
-                                  const SizedBox(width: 5),
-                                  text(e.name, 13.sp, Colors.black),
-                                ],
+                            return Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    for (var engine in algorithmStructures[indexStructureAlgo].engines) {
+                                      engine.selected = false;
+                                    }
+                                    e.selected = true;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    e.selected ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                    const SizedBox(width: 5),
+                                    text(e.name, 13.sp, Colors.black),
+                                  ],
+                                ),
                               ),
-                            ),
                             );
                           }).toList(),
                         ),
@@ -843,7 +904,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         color: Colors.purple,
                         height: 6.h,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(),
                             text("Target database", 12.5.sp, Colors.white),
@@ -886,6 +947,66 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurpleAccent,
+                    border: Border.all(color: Colors.deepPurpleAccent, width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: TextButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        structureOpenAdvanced = !structureOpenAdvanced;
+                      });
+                    },
+                    icon: Icon(Icons.settings, color: Colors.white, size: 15.sp),
+                    label: text(structureOpenAdvanced ? "Hide advanced options" : "Show advanced options", 13.sp, Colors.white),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                if (structureOpenAdvanced)
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: Colors.purple, width: 1),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          color: Colors.purple,
+                          height: 6.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              text("Advance option", 13.sp, Colors.white),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          constraints: BoxConstraints(minHeight: 1.h, maxHeight: 30.h),
+                          child: const Row(),
+                        ),
+                      ],
+                    ),
+                  ),
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.purple, width: 2),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: TextButton.icon(
+                    onPressed: () {
+                      setState(() {});
+                    },
+                    icon: Icon(Icons.file_upload_outlined, color: Colors.black, size: 15.sp),
+                    label: text("Submit", 15.sp, Colors.black),
                   ),
                 ),
                 const SizedBox(height: 10),
