@@ -1,3 +1,4 @@
+import 'api.dart';
 import 'config.dart';
 import 'object.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int algoIndexSeq = 0;
   int inputMethodSeq = 0;
   bool isMobile = false;
+  String fileNameSeq = "Please select file";
   TextEditingController searchSession = TextEditingController();
   List<IconText> tabNames = [
     IconText("Home", Icons.home),
@@ -48,7 +50,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    tabController = TabController(length: tabNames.length, vsync: this);
+    tabController = TabController(
+      length: tabNames.length,
+      vsync: this,
+      animationDuration: Duration.zero,
+      initialIndex: 1,
+    );
+
     super.initState();
   }
 
@@ -211,10 +219,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Widget sequence() {
+    TextEditingController querySeq = TextEditingController();
+    TextEditingController queryChain = TextEditingController();
     List<Algorithm> algorithms = [
       Algorithm(
         "BLAST",
-        "Basic local alignment search tool",
+        "Basic Local Alignment Search Tool",
         ["UniRef", "SCOP", "PDB"],
       ),
       Algorithm(
@@ -277,142 +287,138 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
           ),
           Container(
-            height: 40.h,
             padding: EdgeInsets.symmetric(horizontal: isMobile ? 10.w : 15.w),
             child: Column(
               children: [
                 const SizedBox(height: 10),
                 Container(
-                  height: 30.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(color: Colors.purple, width: 1),
                   ),
                   child: Column(
                     children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          color: Colors.purple,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const SizedBox(),
-                              text("Query", 14.sp, Colors.white),
-                              text("Step (1/3)  ", 14.sp, Colors.white),
-                            ],
-                          ),
+                      Container(
+                        color: Colors.purple,
+                        height: 6.h,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(),
+                            text("Query", 12.5.sp, Colors.white),
+                            text("Step (1/3)  ", 12.5.sp, Colors.white),
+                          ],
                         ),
                       ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                      flex: 1,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            inputMethodSeq = 0;
-                                          });
-                                        },
-                                        child: Row(
-                                          children: [
-                                            inputMethodSeq == 0 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
-                                            const SizedBox(width: 5),
-                                            text("Sequence", 13.sp, Colors.black),
-                                          ],
-                                        ),
-                                      )),
-                                  Expanded(
-                                    flex: 4,
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      child: const TextField(
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          contentPadding: EdgeInsets.all(10.0),
-                                          hintText: 'Enter protein sequence',
-                                        ),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        inputMethodSeq = 0;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        inputMethodSeq == 0 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        const SizedBox(width: 5),
+                                        text("Sequence", 13.sp, Colors.black),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: TextField(
+                                      controller: querySeq,
+                                      minLines: 1,
+                                      maxLines: 1000,
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        contentPadding: EdgeInsets.all(10.0),
+                                        hintText: 'Enter protein sequence',
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),/*
-          Container(
-            height: 40.h,
-            padding: EdgeInsets.symmetric(horizontal: isMobile ? 10.w : 15.w),
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                Container(
-                  height: 30.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.purple, width: 1),
-                  ),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          color: Colors.purple,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const SizedBox(),
-                              text("Refinement engine", 14.sp, Colors.white),
-                              text("Step (2/3)  ", 14.sp, Colors.white),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                      flex: 1,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            inputMethodSeq = 1;
-                                          });
-                                        },
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        inputMethodSeq = 1;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        inputMethodSeq == 1 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        const SizedBox(width: 5),
+                                        text("Upload file", 13.sp, Colors.black),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: TextButton.icon(
+                                            label: text(fileNameSeq, 12.sp, Colors.black),
+                                            onPressed: () async {
+                                              await uploadFile().then((value) {
+                                                setState(() {
+                                                  fileNameSeq = value;
+                                                });
+                                              });
+                                            },
+                                            icon: const Icon(Icons.upload_file),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
                                         child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
-                                            inputMethodSeq == 1 ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                            text("Chain :", 12.sp, Colors.black),
                                             const SizedBox(width: 5),
-                                            text("Sequence", 13.sp, Colors.black),
+                                            Expanded(
+                                              flex: 1,
+                                              child: TextField(
+                                                controller: queryChain,
+                                                decoration: const InputDecoration(
+                                                  border: OutlineInputBorder(),
+                                                  contentPadding: EdgeInsets.all(10.0),
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
-                                      )),
-                                  Expanded(
-                                    flex: 4,
-                                    child: Container(),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                                const Expanded(flex: 2, child: SizedBox()),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -420,7 +426,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 ),
               ],
             ),
-          ),*/
+          ),
         ],
       ),
     );
