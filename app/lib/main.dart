@@ -47,10 +47,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   TextEditingController searchSession = TextEditingController();
 
   List<IconText> tabNames = [
-    IconText("Home", Icons.home),
-    IconText("Sequence", Icons.arrow_downward),
-    IconText("Structure", Icons.arrow_downward),
-    IconText("Contact", Icons.contacts),
+    IconText(false, "Home", Icons.home, []),
+    IconText(false, "Sequence", Icons.arrow_drop_down, ["SARST2", "GoBLAST"]),
+    IconText(false, "Structure", Icons.arrow_drop_down, ["SARST2", "GoBLAST"]),
+    IconText(false, "Tutorial", Icons.library_books, []),
+    IconText(false, "Contact", Icons.contacts, []),
   ];
   List<Algorithm> algorithmSequences = [
     Algorithm(
@@ -131,15 +132,23 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          leadingWidth: 13.w,
-          leading: Container(
-            alignment: Alignment.center,
-            child: Text(
-              ' 𝒊 𝑷 𝑨 𝑷',
-              style: TextStyle(
-                fontSize: isMobile ? 20 : 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+          titleSpacing: 0,
+          leadingWidth: 8.w,
+          leading: InkWell(
+            onTap: () {
+              setState(() {
+                tabController.index = 0;
+              });
+            },
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                '𝒊𝑷𝑨𝑷',
+                style: TextStyle(
+                  fontSize: isMobile ? 20 : 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
@@ -156,17 +165,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             dividerColor: Colors.transparent,
             tabs: tabNames.map((e) {
               return Container(
-                width: isMobile ? 8.w : 12.w,
                 alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 5),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: FittedBox(
                   fit: BoxFit.contain,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (!isMobile) text(e.name, 18, Colors.black, weight: FontWeight.bold),
+                      if (!isMobile) text(e.name, 12.sp, Colors.black, weight: FontWeight.bold),
                       const SizedBox(width: 5),
-                      if (e.icon != null) Icon(e.icon, size: 20),
+                      if (e.icon != null) Icon(e.icon, size: isMobile ? 17.sp : 14.sp),
                     ],
                   ),
                 ),
@@ -200,6 +208,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             mainPage(),
             sequence(),
             structure(),
+            tutorial(),
             contact(),
           ],
         ),
@@ -1016,6 +1025,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  Widget tutorial() {
+    return const SizedBox();
   }
 
   Widget contact() {
