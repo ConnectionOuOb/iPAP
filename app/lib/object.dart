@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class IconText {
+  bool isOpen;
   String name;
   IconData? icon;
+  List<String> children;
 
-  IconText(this.name, this.icon);
+  IconText(this.isOpen, this.name, this.icon, this.children);
 }
 
 class Algorithm {
