@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class IconText {
+  bool isOpen;
   String name;
   IconData? icon;
+  List<String> children;
 
-  IconText(this.name, this.icon);
+  IconText(this.isOpen, this.name, this.icon, this.children);
 }
 
 class Algorithm {
@@ -21,4 +23,13 @@ class SelectItem {
   String name;
 
   SelectItem(this.selected, this.name);
+}
+
+class Section {
+  int stage;
+  bool onRead;
+  String name;
+  Widget content;
+
+  Section(this.stage, this.onRead, this.name, this.content);
 }
