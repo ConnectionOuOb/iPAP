@@ -11,12 +11,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-
-  cupertino_icons: ^1.0.2
-  responsive_sizer: ^3.2.0
-  url_launcher: ^6.2.2
   http: ^1.1.0
   file_picker: ^6.1.1
+  url_launcher: ^6.2.2
+  cupertino_icons: ^1.0.2
+  responsive_sizer: ^3.2.0
+  flutter_markdown: ^0.6.18
+  scrollable_positioned_list: ^0.3.8
 
 dev_dependencies:
   flutter_test:
@@ -28,4 +29,4 @@ flutter:
   uses-material-design: true
 
   assets:
-     - assets/images/
+    - assets/images/

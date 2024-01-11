@@ -1,16 +1,18 @@
 import 'api.dart';
 import 'config.dart';
 import 'object.dart';
+import 'Pages/home.dart';
+import 'Pages/tutorial.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
-  runApp(const IPAP());
+  runApp(const IpapApp());
 }
 
-class IPAP extends StatelessWidget {
-  const IPAP({super.key});
+class IpapApp extends StatelessWidget {
+  const IpapApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +22,21 @@ class IPAP extends StatelessWidget {
           title: 'iPAP',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true),
-          home: const MyHomePage(),
+          home: const Ipap(),
         );
       },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class Ipap extends StatefulWidget {
+  const Ipap({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Ipap> createState() => _IpapState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+class _IpapState extends State<Ipap> with TickerProviderStateMixin {
   bool isMobile = false;
   bool sequenceOpenAdvanced = false;
   bool structureOpenAdvanced = false;
@@ -205,10 +207,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         body: TabBarView(
           controller: tabController,
           children: [
-            mainPage(),
+            PageHome(isMobile: isMobile),
             sequence(),
             structure(),
-            tutorial(),
+            PageTutorial(isMobile: isMobile),
             contact(),
           ],
         ),
@@ -233,42 +235,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ],
                 ),
         ),
-      ),
-    );
-  }
-
-  Widget mainPage() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 15.h,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                firstAlphaHL("integrated", 20.sp),
-                const SizedBox(width: 20),
-                firstAlphaHL("Protein", 20.sp),
-                const SizedBox(width: 20),
-                firstAlphaHL("Analysis", 20.sp),
-                const SizedBox(width: 20),
-                firstAlphaHL("Platform", 20.sp),
-              ],
-            ),
-          ),
-          Divider(
-            height: 0,
-            thickness: 1,
-            indent: isMobile ? 10.w : 15.w,
-            endIndent: isMobile ? 10.w : 15.w,
-            color: Colors.purple,
-          ),
-          const SizedBox(height: 30),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: isMobile ? 10.w : 15.w),
-            child: textSelect(statement, 14.sp, Colors.black),
-          ),
-        ],
       ),
     );
   }
@@ -563,7 +529,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     },
                                     child: Row(
                                       children: [
-                                        algorithmSequences[indexSequenceAlgo].databases[index].selected ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        algorithmSequences[indexSequenceAlgo].databases[index].selected
+                                            ? const Icon(Icons.check_box)
+                                            : const Icon(Icons.check_box_outline_blank),
                                         const SizedBox(width: 5),
                                         text(algorithmSequences[indexSequenceAlgo].databases[index].name, 13.sp, Colors.black),
                                       ],
@@ -943,7 +911,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     },
                                     child: Row(
                                       children: [
-                                        algorithmStructures[indexStructureAlgo].databases[index].selected ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
+                                        algorithmStructures[indexStructureAlgo].databases[index].selected
+                                            ? const Icon(Icons.check_box)
+                                            : const Icon(Icons.check_box_outline_blank),
                                         const SizedBox(width: 5),
                                         text(algorithmStructures[indexStructureAlgo].databases[index].name, 13.sp, Colors.black),
                                       ],
@@ -1025,10 +995,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ],
       ),
     );
-  }
-
-  Widget tutorial() {
-    return const SizedBox();
   }
 
   Widget contact() {

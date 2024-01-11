@@ -24,3 +24,12 @@ class SelectItem {
 
   SelectItem(this.selected, this.name);
 }
+
+class Section {
+  int stage;
+  bool onRead;
+  String name;
+  Widget content;
+
+  Section(this.stage, this.onRead, this.name, this.content);
+}
