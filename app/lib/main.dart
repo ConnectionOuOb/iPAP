@@ -159,7 +159,7 @@ class _IpapState extends State<Ipap> with TickerProviderStateMixin {
             PageStructure(isMobile: isMobile),
             PageTutorial(isMobile: isMobile),
             PageContact(isMobile: isMobile),
-            PageResult(isMobile: isMobile),
+            PageResult(isMobile: isMobile, sessionID: sessionID),
           ],
         ),
         bottomNavigationBar: Container(
