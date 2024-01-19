@@ -1,5 +1,3 @@
-import 'components/text.dart';
-import 'illustrate/footer.dart';
 import 'object.dart';
 import 'Pages/home.dart';
 import 'pages/result.dart';
@@ -7,6 +5,8 @@ import 'Pages/contact.dart';
 import 'Pages/tutorial.dart';
 import 'Pages/sequence.dart';
 import 'Pages/structure.dart';
+import 'components/text.dart';
+import 'illustrate/footer.dart';
 import 'package:flutter/material.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:responsive_sizer/responsive_sizer.dart';

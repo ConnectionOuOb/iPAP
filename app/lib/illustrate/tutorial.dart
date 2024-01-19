@@ -1,5 +1,5 @@
-import '../components/markdown.dart';
 import '../object.dart';
+import '../components/markdown.dart';
 
 List<Section> tutorialTexts = [
   Section(
