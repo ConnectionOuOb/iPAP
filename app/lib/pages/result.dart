@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-import '../config.dart';
+import '../components/text.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 

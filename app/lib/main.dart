@@ -1,4 +1,5 @@
-import 'config.dart';
+import 'components/text.dart';
+import 'illustrate/footer.dart';
 import 'object.dart';
 import 'Pages/home.dart';
 import 'pages/result.dart';

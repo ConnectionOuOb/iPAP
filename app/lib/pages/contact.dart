@@ -1,4 +1,4 @@
-import '../config.dart';
+import '../components/text.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';

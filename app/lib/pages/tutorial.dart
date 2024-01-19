@@ -1,7 +1,9 @@
-import '../config.dart';
+import '../components/text.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import '../illustrate/tutorial.dart';
 
 class PageTutorial extends StatefulWidget {
   const PageTutorial({super.key, required this.isMobile});
