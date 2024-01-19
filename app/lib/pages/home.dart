@@ -1,4 +1,5 @@
-import '../config.dart';
+import '../components/text.dart';
+import '../illustrate/home.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 

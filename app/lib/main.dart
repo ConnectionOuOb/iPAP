@@ -1,11 +1,14 @@
-import 'config.dart';
 import 'object.dart';
 import 'Pages/home.dart';
+import 'pages/result.dart';
 import 'Pages/contact.dart';
 import 'Pages/tutorial.dart';
 import 'Pages/sequence.dart';
 import 'Pages/structure.dart';
+import 'components/text.dart';
+import 'illustrate/footer.dart';
 import 'package:flutter/material.dart';
+import 'package:universal_html/html.dart' as html;
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
@@ -39,6 +42,7 @@ class Ipap extends StatefulWidget {
 
 class _IpapState extends State<Ipap> with TickerProviderStateMixin {
   bool isMobile = false;
+  String sessionID = "";
   TextEditingController searchSession = TextEditingController();
 
   List<IconText> tabNames = [
@@ -47,13 +51,18 @@ class _IpapState extends State<Ipap> with TickerProviderStateMixin {
     IconText(false, "Structure", Icons.arrow_drop_down, ["SARST2", "GoBLAST"]),
     IconText(false, "Tutorial", Icons.library_books, []),
     IconText(false, "Contact", Icons.contacts, []),
+    IconText(false, "", Icons.abc, []),
   ];
 
   late TabController tabController;
 
   @override
   void initState() {
+    Uri uri = Uri.parse(html.window.location.href);
+    sessionID = uri.queryParameters['sID'] ?? '';
+
     tabController = TabController(
+      initialIndex: sessionID == "" ? 0 : 5,
       length: tabNames.length,
       vsync: this,
       animationDuration: Duration.zero,
@@ -103,21 +112,23 @@ class _IpapState extends State<Ipap> with TickerProviderStateMixin {
             labelPadding: EdgeInsets.zero,
             dividerColor: Colors.transparent,
             tabs: tabNames.map((e) {
-              return Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (!isMobile) text(e.name, 12.sp, Colors.black, weight: FontWeight.bold),
-                      const SizedBox(width: 5),
-                      if (e.icon != null) Icon(e.icon, size: isMobile ? 17.sp : 14.sp),
-                    ],
-                  ),
-                ),
-              );
+              return e.name == ""
+                  ? const SizedBox()
+                  : Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (!isMobile) text(e.name, 12.sp, Colors.black, weight: FontWeight.bold),
+                            const SizedBox(width: 5),
+                            if (e.icon != null) Icon(e.icon, size: isMobile ? 17.sp : 14.sp),
+                          ],
+                        ),
+                      ),
+                    );
             }).toList(),
           ),
           actions: [
@@ -149,6 +160,7 @@ class _IpapState extends State<Ipap> with TickerProviderStateMixin {
             PageStructure(isMobile: isMobile),
             PageTutorial(isMobile: isMobile),
             PageContact(isMobile: isMobile),
+            PageResult(isMobile: isMobile, sessionID: sessionID),
           ],
         ),
         bottomNavigationBar: Container(

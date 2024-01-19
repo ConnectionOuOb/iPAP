@@ -11,13 +11,16 @@ dependencies:
   flutter:
     sdk: flutter
 
-  http: ^1.1.0
+  http: ^1.1.2
   file_picker: ^6.1.1
   url_launcher: ^6.2.2
   cupertino_icons: ^1.0.2
   responsive_sizer: ^3.2.0
   flutter_markdown: ^0.6.18
   scrollable_positioned_list: ^0.3.8
+  universal_html: ^2.2.4
+  sprintf: ^7.0.0
+  flutter_easyloading: ^3.0.5
 
 dev_dependencies:
   flutter_test:
