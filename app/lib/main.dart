@@ -80,7 +80,7 @@ class _IpapState extends State<Ipap> with TickerProviderStateMixin {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          titleSpacing: 0,
+          titleSpacing: -50,
           leadingWidth: 8.w,
           leading: InkWell(
             onTap: () {
@@ -164,25 +164,9 @@ class _IpapState extends State<Ipap> with TickerProviderStateMixin {
           ],
         ),
         bottomNavigationBar: Container(
-          height: isMobile ? 100 : 50,
+          height: isMobile ? 10.h : 6.h,
           color: Colors.black,
-          child: isMobile
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    footerTestStyle(footerText1),
-                    const SizedBox(height: 10),
-                    footerTestStyle(footerText2),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    footerTestStyle(footerText1),
-                    const SizedBox(width: 20),
-                    footerTestStyle(footerText2),
-                  ],
-                ),
+          child: footer(),
         ),
       ),
     );
